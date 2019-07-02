@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.coolwind.redis.web.dao.Test2Dao" >
+    <cache eviction="LRU" type="cn.coolwind.redis.core.config.RedisCache"/>
+
+    <select id="getById"  resultType="cn.coolwind.redis.core.entity.Test2">
+        SELECT * FROM test2 WHERE id = #{id}
+    </select>
+
+    <update id="updateTest" parameterType="cn.coolwind.redis.core.entity.Test2">
+        update  test2
+        set
+         `name` = #{name},
+         `value` = #{value}
+         where id = #{id}
+    </update>
+
+    <insert id="insert" >
+        insert into test2(`name`,`value`)
+        values(#{name},#{value})
+
+    </insert>
+
+    <resultMap id="joinMap" type="cn.coolwind.redis.core.entity.TestDTO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name1" jdbcType="VARCHAR" property="name1"/>
+        <result column="name2" jdbcType="VARCHAR" property="name2"/>
+        <result column="value1" jdbcType="VARCHAR" property="value1"/>
+        <result column="value2" jdbcType="VARCHAR" property="value2"/>
+    </resultMap>
+
+    <select id="selectAll" resultMap="joinMap" useCache="false">
+        SELECT a.id,a.name name1,a.value value1,b.name name2,b.value value2
+         FROM test a,test2 b
+         where a.id = b.id and a.id = #{id}
+    </select>
+
+
+</mapper>
