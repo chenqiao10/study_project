@@ -1,0 +1,4 @@
+activeMQ 消息队列
+autogenerate mybatis 代码生成工具可根据需求改
+JMSProject.git 消息队列
+ssm-redis redis替换mybatis二级缓存
